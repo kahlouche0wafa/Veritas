@@ -7,14 +7,13 @@
     },
     "backend": {
       "root": "backend/",
-      "entrypoint": "veritas.api:app",
-      "runtime": "python3.12"
+      "entrypoint": "veritas.api:app"
     }
   },
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": { "type": "service", "service": "backend", "path": "/:path*" }
+      "destination": { "type": "service", "service": "backend" }
     },
     {
       "source": "/(.*)",

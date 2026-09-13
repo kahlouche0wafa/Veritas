@@ -96,6 +96,33 @@ app.add_middleware(
 )
 
 
+# Pure ASGI middleware that strips a leading /api from incoming paths
+# before FastAPI's router sees them. This lets the same app serve both
+# local dev (Vite proxy already strips /api → app receives /health → noop)
+# AND Vercel (which forwards /api/health unchanged → this strips → /health).
+# Additive only; no existing route decorator changes.
+class StripApiPrefix:
+    def __init__(self, app, prefix: str = "/api"):
+        self.app = app
+        self.prefix = prefix
+        self._plen = len(prefix)
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") == "http":
+            path = scope.get("path", "")
+            if path == self.prefix or path.startswith(self.prefix + "/"):
+                scope = dict(scope)
+                scope["path"] = path[self._plen:] or "/"
+                raw = scope.get("raw_path") or b""
+                pfx = self.prefix.encode()
+                if raw == pfx or raw.startswith(pfx + b"/"):
+                    scope["raw_path"] = raw[self._plen:] or b"/"
+        await self.app(scope, receive, send)
+
+
+app.add_middleware(StripApiPrefix, prefix="/api")
+
+
 # ---------------------------------------------------------------------
 # Request / response schemas
 # ---------------------------------------------------------------------
