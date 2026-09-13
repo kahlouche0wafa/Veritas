@@ -1,6 +1,6 @@
 // Small fetch wrapper. Uses the Vite dev-server proxy at /api → 127.0.0.1:8765.
 
-const BASE = '/svc/api';
+const BASE = '/api';
 
 async function jsonReq(path, opts = {}) {
   const res = await fetch(BASE + path, {
