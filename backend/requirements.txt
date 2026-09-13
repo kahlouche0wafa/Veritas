@@ -1,0 +1,11 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+httpx>=0.27
+pydantic>=2.9
+python-dotenv>=1.0
+supabase>=2.8
+groq>=0.13
+# truststore routes httpx TLS verification through the OS root store
+# (needed on Windows for Nokia's apihub.nokia.io cert chain, which
+# certifi's bundled roots don't fully cover)
+truststore>=0.10

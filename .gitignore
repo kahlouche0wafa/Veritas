@@ -1,0 +1,34 @@
+# ---- secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+*.log
+
+# ---- js ----
+node_modules/
+dist/
+build/
+.vite/
+*.local
+
+# ---- editor / local tooling ----
+.idea/
+.vscode/
+.claude/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ---- test / scratch ----
+scripts/test_matrix_output*.json
+backend/scripts/test_matrix_output*.json
+scratchpad/
