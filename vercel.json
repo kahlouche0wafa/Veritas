@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
     "frontend": {
       "root": "frontend/",
@@ -6,21 +7,18 @@
     },
     "backend": {
       "root": "backend/",
-      "entrypoint": "veritas.api:app"
+      "entrypoint": "veritas.api:app",
+      "runtime": "python3.12"
     }
   },
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": {
-        "service": "backend"
-      }
+      "destination": { "type": "service", "service": "backend", "path": "/:path*" }
     },
     {
       "source": "/(.*)",
-      "destination": {
-        "service": "frontend"
-      }
+      "destination": { "type": "service", "service": "frontend" }
     }
   ]
 }
